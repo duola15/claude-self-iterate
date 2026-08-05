@@ -61,4 +61,10 @@
 - **不部署**：build 只本地验证，默认不 push/commit
 - **数据库文件保护**：铁则门拦截一切动 `data/`、`.db` 的提案（除非显式授权）
 - **不替用户决定**：每条提案过三道门，实施清单在返回结果中给你确认
+
+## 相关文档
+
+- [ROLE-SPEC.md](ROLE-SPEC.md) — 角色 6 层画像规范（怎么写好一个角色）
+- [CONFIG-GUIDE.md](CONFIG-GUIDE.md) — 配置全指南（维度/角色/页面池/运行时覆盖）
+- [SELF-IMPROVE.md](SELF-IMPROVE.md) — Executor/Analyst/Mutator 自我改进循环
 - **组合去重**：运行内 `seen` 集合避免重复查同一页面（跨运行断点续跑在规划中，当前每次全量矩阵）
