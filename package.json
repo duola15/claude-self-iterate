@@ -1,0 +1,12 @@
+{
+  "name": "claude-self-iterate",
+  "version": "1.0.0",
+  "description": "全站自迭代优化工作流：Claude 自己逛网站找痛点 → 三道门评审 → 最小实施 → 自我改进循环，改无可改自动停",
+  "type": "module",
+  "keywords": ["claude", "workflow", "self-improvement", "website-optimization", "ai-agent", "review"],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/<you>/claude-self-iterate"
+  }
+}
