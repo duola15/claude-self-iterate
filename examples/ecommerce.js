@@ -1,0 +1,76 @@
+// 电商站场景配置 —— 复制为 config.js 使用，或经 args.config 覆盖
+// 特点：转化/价格/购物车/移动端 是核心
+export default {
+  name: "我的电商站",
+  siteUrl: "http://localhost:3000",
+  workDir: ".",
+  memoryDir: "reports/iterate",
+  dims: [
+    { k: 'D', name: '转化', q: '用户能否快速完成购买/加入购物车', veto: false },
+    { k: 'C', name: '内容质量', q: '商品描述/评价是否可信可读', veto: false },
+    { k: 'M', name: '变现', q: '价格/运费/优惠是否清晰透明', veto: false },
+    { k: 'T', name: '数据可信', q: '价格/库存/评分是否有来源且自洽', veto: true, vm: 4 },
+    { k: 'R', name: '合规', q: '退货政策/免责/儿童隐私/价格欺诈', veto: true, vm: 4 },
+    { k: 'S', name: '可维护', q: '商品上架维护成本低', veto: true, vm: 3 },
+    { k: 'F', name: '目标一致', q: '是否服务 GMV/转化', veto: true, vm: 1 },
+    { k: 'P', name: '性能', q: '首屏/图片加载预算', veto: false },
+    { k: 'U', name: '体验', q: '购物流程/移动端/无障碍', veto: false },
+    { k: 'G', name: '增长', q: 'SEO/分发承接', veto: false },
+  ],
+  extremeWords: ['最大', '最强', '最好', 'no.1', 'the best', 'leading', '唯一', '全网最低', '绝对便宜'],
+  roles: [
+    // 复用通用角色（new-user/power-user/data-auditor/compliance/performance/ui-designer/...）
+    // 下面加 2 个电商专属角色：
+    {
+      key: 'shopper', name: '购物者', w: { D: 3 }, scope: ['all'],
+      identity: '第一次来想买东西的用户：找商品→看价格→下单。对隐藏费用/缺货/流程卡壳极敏感。',
+      vision: '我走完整购买路径：搜索→商品页→加购→结算。每一步是否清晰、有无隐藏费用。',
+      checklist: '①商品页价格/库存/运费是否清晰 ②加购/结算路径是否顺畅 ③有无隐藏费用 ④移动端下单是否顺畅 ⑤评价是否可信',
+      kpi: '发现“看到价格却不敢买”或“结算卡住”的。',
+      constitution: '价格透明·转化路径清晰',
+      defense: '别把“促销少”当缺点。只报“价格不清/流程断”的。',
+    },
+    {
+      key: 'price-auditor', name: '价格审计官', w: { T: 3 }, scope: ['all'], veto: 'T',
+      identity: '专门盯价格/库存/评价的真实性。怀疑一切优惠数字。',
+      vision: '价格是否前后一致？“原价/现价”是否真实？评价有无刷量？',
+      checklist: '①原价vs现价是否真实 ②库存显示是否一致 ③评价/评分是否可信 ④价格在不同页是否矛盾',
+      kpi: '发现“价格欺诈/库存矛盾/刷量评价”的。',
+      constitution: '数据可信（价格必须可核实）·禁虚假促销',
+      defense: '别把“促销力度小”当问题。只报“价格造假/矛盾”的。',
+    },
+    {
+      key: 'maintainer', name: '维护者', w: { S: 3 }, scope: ['all'], judge: true, veto: 'S',
+      identity: '站点的唯一运营者。评估这条改动让我每天多花几分钟。',
+      vision: '可持续性：数据要人工更新吗？会成负担吗？',
+      checklist: '①维护成本 ②数据源稳定 ③自动化空间 ④失败风险 ⑤值不值',
+      kpi: '驳回高维护改动。',
+      constitution: '单人可持续',
+      defense: '别把一次性配置当高维护。',
+    },
+  ],
+  pageCore: [
+    { id: 'home', path: '/', name: '首页' },
+    { id: 'product', path: '/product/demo', name: '商品页' },
+    { id: 'category', path: '/category/featured', name: '分类页' },
+    { id: 'cart', path: '/cart', name: '购物车' },
+    { id: 'checkout', path: '/checkout', name: '结算页' },
+    { id: 'blog', path: '/blog', name: '博客' },
+    { id: 'about', path: '/about', name: '关于' },
+  ],
+  modelTiers: [
+    { tier: 'T1', hint: '从首页挑一个旗舰商品详情页', n: 8 },
+    { tier: 'T2', hint: '从分类页挑一个普通商品页', n: 6 },
+    { tier: 'T3', hint: '从底部/归档挑一个冷门商品页', n: 3 },
+  ],
+  pageLongtail: [
+    { id: 'lt-product-2', name: '商品页2', path: '/product/other' },
+    { id: 'lt-category-2', name: '分类页2', path: '/category/sale' },
+    { id: 'lt-cart-empty', name: '空购物车', path: '/cart' },
+    { id: 'lt-search', name: '搜索页', path: '/search' },
+    { id: 'lt-return', name: '退货政策', path: '/returns' },
+    { id: 'lt-shipping', name: '物流说明', path: '/shipping' },
+    { id: 'lt-account', name: '账号页', path: '/account' },
+    { id: 'lt-404', name: '404页', path: '/nonexistent' },
+  ],
+}

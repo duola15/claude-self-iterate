@@ -2,50 +2,89 @@
 
 # ♾️ claude-self-iterate
 
-### 让 Claude 自己优化你的网站，直到改无可改，自动停。
+### 让 Claude 自己优化你的网站——像一支 15 人产品团队，每天帮你巡检、评审、改版。直到改无可改，自动停。
 
 [![Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/duola15/claude-self-iterate/ci.yml?label=CI)](https://github.com/duola15/claude-self-iterate/actions)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-ready-black.svg)](#)
-[![Workflow](https://img.shields.io/badge/powered%20by-Workflow%20tool-7c3aed.svg)](#)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![GitHub stars](https://img.shields.io/github/stars/duola15/claude-self-iterate?style=social)](https://github.com/duola15/claude-self-iterate/stargazers)
 
-**一个多角色自迭代工作流**：15+ 个评审角色真实"逛"你的网站每个页面 → 找痛点 →
-过三道门评审 → 最小实施 → 自我改进循环。跑完整个矩阵自动停，绝不空转。
+**给这个项目一个 ⭐** —— 你每星一次，AI 就离"自我迭代产品"更近一步。
 
 </div>
 
 ---
 
-## 🧠 为什么你需要它
+## 💡 它解决什么问题
 
 你的网站**天天在改**，但总是靠人肉：
-- 改 UI 靠"我感觉"——没有系统证据
-- 改文案靠"应该这样"——不知道用户卡在哪
-- 排错靠"拍脑袋"——漏了 90% 的页面
 
-**Self-Iterate 换一种方式**：让 AI 扮演 15 个不同角色（新手/老手/数据审计/合规/性能/视觉/无障碍/SEO/转化/安全/内容…），**真实打开你的每一个页面**，用各自视角找痛点。每个发现都带证据链（实际内容 + 源码位置），过三道门才实施，实施后 AI 还自我改进自己的工作流。
+| 现状 | 问题 |
+|---|---|
+| 改 UI 靠"我感觉" | 没有系统证据，不知道用户卡在哪 |
+| 改文案靠"应该这样" | 漏了 90% 的页面 |
+| 排错靠"拍脑袋" | 发现一个问题，漏了一整类 |
+
+**Self-Iterate 换一种方式**：让 AI 扮演 **15 个评审角色**（新手/老手/数据审计/合规/性能/视觉/无障碍/SEO/转化/安全/内容…），**真实打开你的每一个页面**，用各自视角找痛点。每个发现都带**证据链**（实际内容 + 源码位置），过三道门才实施，实施后 AI 还**自我改进自己的工作流**。
 
 > 核心洞察：**"逛一遍全站"比"想一遍全站"能发现 10 倍的问题。**
 
 ---
 
-## 🚀 快速开始（3 步）
+## 🚀 5 分钟跑通
 
 ```bash
-# 1. 复制配置模板，改你的站点
+# 1) 一键安装到 Claude Code
+bash install.sh
+
+# 2) 复制配置，改你的站点
 cp config.example.js config.js
 #    编辑 config.js: siteUrl = "http://localhost:3000", name = "你的站点"
 
-# 2. 本地起 dev server（子 agent 真实抓它）
-npm run dev        # 端口与 config.siteUrl 一致
+# 3) 本地起 dev server（子 agent 真实抓它）
+npm run dev
 
-# 3. 在 Claude Code 里运行
+# 4) 在 Claude Code 里说：
+#    "运行 self-iterate，对 localhost:3000 跑一轮巡检"
+#    或：
 Workflow({ scriptPath: "workflows/self-iterate.js",
            args: { siteUrl: "http://localhost:3000", maxBatches: 1 } })
-# 或一句话： "运行 self-iterate，对 localhost:3000 跑一轮巡检"
 ```
 
-不想写 config？默认配置开箱即用（通用角色 + 示例页面池），跑一遍看效果再改。
+**不想写配置？** 3 个场景模板拿来即用：
+
+| 模板 | 适合 | 用法 |
+|---|---|---|
+| 🛒 [ecommerce.js](examples/ecommerce.js) | 电商站（转化/价格/购物车） | `cp examples/ecommerce.js config.js` |
+| 📚 [docs-site.js](examples/docs-site.js) | 文档站（新手/搜索/可读性） | `cp examples/docs-site.js config.js` |
+| 💼 [saas.js](examples/saas.js) | SaaS（注册/定价/留存） | `cp examples/saas.js config.js` |
+
+---
+
+## 📊 跑一轮你会看到什么
+
+> 完整示例报告见 **[examples/sample-report.md](examples/sample-report.md)**。这是**构造示例**，字段真实。
+
+```json
+{
+  "findings": 12, "approved": 5, "rejected": 7, "applied": 3,
+  "selfImprove": {
+    "executor_score": 82,
+    "weakness": "SEO 角色 checklist 太抽象",
+    "suggestion": "add_example: 给 SEO 角色加'robots.txt 返回 500'的具体例子",
+    "target": "roles:seo-expert"
+  }
+}
+```
+
+**巡检发现的 3 个样例（带证据链）**：
+
+| 角色 | 页面 | 痛点 | 严重度 |
+|---|---|---|---|
+| 新手用户 | /pricing | 主 CTA"立即开始"跳到注册页，但 hero 承诺"免费试用"——文案与按钮矛盾 | P1 |
+| 数据审计 | /docs | 文档页"3M+ 用户"无来源，与关于页"2M+"矛盾 | P0 |
+| 合规官 | /blog | 博客缺免责声明，标题含"最强方案"极端词 | P1 |
 
 ---
 
@@ -54,7 +93,7 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  ① 巡检  15+ 角色 × 页面矩阵                                 │
-│     每个角色真实抓页（curl+chrome-devtools），带证据链找痛点    │
+│     每个角色真实抓页（curl + chrome-devtools），带证据链找痛点  │
 │     每条发现打 10 维分（决策/内容/变现/数据/风险/维护/目标/…）  │
 ├─────────────────────────────────────────────────────────────┤
 │  ② 三道门评审                                                │
@@ -81,14 +120,27 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 
 ---
 
+## 🆚 与"手动优化" / 其他工具比
+
+| 维度 | 手动人肉 | 其他 AI 工具 | **claude-self-iterate** |
+|---|---|---|---|
+| 覆盖面 | 抽查几个页面 | 单页分析 | **全站矩阵（每页多角色）** |
+| 证据 | 凭感觉 | 凭上下文 | **带源码定位的真实抓取** |
+| 防自嗨 | 无 | 无 | **三道门硬门** |
+| 自我进化 | 无 | 无 | **Executor/Analyst/Mutator 循环** |
+| 部署 | 手动 | 常自动改 | **不部署（安全默认）** |
+
+---
+
 ## ✨ 特色
 
-- **🦾 多角色真实巡检**：不是"让 AI 猜"，是 15 角色真实打开页面抓证据
-- **♾️ 自我改进循环**：每轮 AI 诊断自己的工作流弱点并提一处改进（Executor/Analyst/Mutator）
-- **⛩️ 三道门防自嗨**：极端词/免责/数据库保护铁则硬门，对立角色复核
-- **🧰 ToolKit 全工具**：自动注入 codebase-memory（查数据来源）、chrome-devtools 全能力（Lighthouse/console/network）、puppeteer 备用、karpathy/systematic-debugging/verification 等 skill 原则
+- **🦾 多角色真实巡检**：不是让 AI 猜，是 15 角色真实打开页面抓证据
+- **♾️ 自我改进循环**：每轮 AI 诊断自己的工作流弱点，提一处改进（受 [awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps) 启发）
+- **⛩️ 三道门防自嗨**：极端词/免责/数据库保护硬门 + 对立角色复核
+- **🧰 ToolKit 全工具**：自动注入 codebase-memory / chrome-devtools 全能力 / puppeteer / karpathy / systematic-debugging / verification 到对应阶段
 - **🛑 安全红线**：不部署、不 push、不碰数据库文件（除非授权）
-- **🔄 断点续跑**：组合矩阵记录进度，中断后 resume 不重复
+- **🔄 断点续跑**：矩阵记录进度，中断后 resume 不重复
+- **📦 配置驱动**：角色/页面池/维度/铁则全部可配，3 个场景模板开箱即用
 
 ---
 
@@ -97,47 +149,47 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 ```
 claude-self-iterate/
 ├── SKILL.md                # 标准 skill 外壳（agentskills.io）
+├── install.sh              # 一键安装到 Claude Code
 ├── workflows/
 │   └── self-iterate.js     # 通用引擎（多 agent 编排核心）
-├── config.example.js       # 配置模板（角色/页面池/维度/铁则）
+├── config.example.js       # 配置模板
+├── examples/
+│   ├── sample-report.md    # 示例报告（跑一轮后你看到什么）
+│   ├── ecommerce.js        # 电商站模板
+│   ├── docs-site.js        # 文档站模板
+│   └── saas.js             # SaaS 模板
 ├── schema.js               # 4 个结构化输出 Schema
-├── docs/
-│   ├── ARCHITECTURE.md     # 五阶段架构 + ToolKit 机制
-│   ├── ROLE-SPEC.md        # 角色 6 层画像规范
-│   ├── SELF-IMPROVE.md     # Executor/Analyst/Mutator 循环
-│   └── CONFIG-GUIDE.md     # 完整配置指南
-├── LICENSE                 # Apache-2.0
-└── package.json
+├── test/                   # 配置有效性测试（node --test）
+├── docs/                   # ARCHITECTURE / ROLE-SPEC / SELF-IMPROVE / CONFIG-GUIDE
+├── .github/                # CI + issue/PR 模板
+└── LICENSE                 # Apache-2.0
 ```
 
 ---
 
 ## 🤝 贡献
 
-- **加角色**：在 `config.js` 的 `roles` 里加一个 6 层画像（identity/vision/checklist/kpi/constitution/defense）
-- **修引擎**：PR 改 `workflows/self-iterate.js`（保持通用，别写死站点）
-- **加 Skill 原则**：`TOOLKIT` 里补充各阶段该利用的 skill/MCP
+- **加角色**：`config.js` 的 `roles` 加 6 层画像（见 [ROLE-SPEC.md](docs/ROLE-SPEC.md)）
+- **修引擎**：PR 改 `workflows/self-iterate.js`（保持通用）
+- **加 Skill/MCP 原则**：`TOOLKIT` 补充各阶段
 
-先看 [CONTRIBUTING](CONTRIBUTING.md)（或直接提 issue 讨论）。
+先看 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ---
 
 ## ❓ FAQ
 
 **Q：会自己改代码并部署吗？**
-不会。默认只跑巡检+评审+自我改进，实施阶段产出的清单给你确认；不部署、不 push、不 commit。
-
-**Q：角色怎么加？**
-每个角色是 6 层画像（身份/视角/硬清单/KPI/原则锚点/误报防御），复制 `config.example.js` 里任意角色改即可。
-
-**Q：页面很多会跑很久？**
-默认全矩阵跑完自动停；可用 `args.maxBatches` 限制批次（先跑 1 批看质量）。详情页按 T1/T2/T3 分层抽样，不全跑。
+不会。默认只巡检+评审+自我改进，实施清单给你确认；不部署、不 push、不 commit。
 
 **Q：需要什么环境？**
-Claude Code（或支持 Workflow 工具的 agent harness）+ 已连接 MCP（chrome-devtools/codegraph/codebase-memory）。无 MCP 时子 agent 退化为 curl/WebFetch。
+Claude Code + 已连接 MCP（chrome-devtools/codegraph/codebase-memory）。无 MCP 时子 agent 退化为 curl/WebFetch。
+
+**Q：页面很多会跑很久吗？**
+矩阵跑完自动停；`args.maxBatches` 限制批次（先跑 1 批看质量）。详情页按 T1/T2/T3 分层抽样，不全跑。
 
 **Q：会不会泄露我的站内数据？**
-不会。工作流只读页面 HTML + 你本地的源码定位；所有结果只在本地工作区。你的 `config.js` 不要提交（已在 `.gitignore`）。
+不会。只读页面 HTML + 本地源码定位；你的 `config.js` 在 `.gitignore` 不提交。
 
 ---
 
@@ -147,4 +199,4 @@ Claude Code（或支持 Workflow 工具的 agent harness）+ 已连接 MCP（chr
 
 ---
 
-**给这个项目一个 ⭐**，如果它帮你省下了几十次"人肉巡检"。
+**⭐ Star 这个项目**，如果它帮你省下了几十次"人肉巡检"。

@@ -97,6 +97,10 @@ const cfg = {
   siteUrl: (typeof args !== 'undefined' && args && args.siteUrl) || DEFAULT_CONFIG.siteUrl,
   maxBatches: (typeof args !== 'undefined' && args && args.maxBatches) ?? null,
 }
+// 自动补决裁角色：用户配置若缺 judge 角色，用默认的补齐（保证决裁门始终可用）
+if (!(cfg.roles || []).some(r => r.judge)) {
+  cfg.roles = [...(cfg.roles || []), ...DEFAULT_CONFIG.roles.filter(r => r.judge)]
+}
 const { dims, passScore, extremeWords, roles, pageCore, modelTiers, pageLongtail, workDir, siteUrl, memoryDir } = cfg
 
 // ═══════════════════════════════════════════════════════════

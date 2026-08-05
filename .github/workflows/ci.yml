@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  syntax-and-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 语法检查（core.js wrapper，顶层 return 是 workflow 特性）
+        run: |
+          node -e "
+            const fs = require('fs');
+            const src = fs.readFileSync('workflows/self-iterate.js','utf8');
+            fs.writeFileSync('/tmp/_w.mjs', 'async function _wf(){\\n'+src.replace(/^export const meta/m,'const meta')+'\\n}');
+          "
+          node --check /tmp/_w.mjs
+          node --check config.example.js
+          for f in examples/*.js; do node --check "$f"; done
+
+      - name: 配置有效性测试
+        run: node --test test/
