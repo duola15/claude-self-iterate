@@ -7,7 +7,7 @@ description: >-
 license: Apache-2.0
 metadata:
   version: "1.0.0"
-  source: "https://github.com/<you>/claude-self-iterate"
+  source: "https://github.com/duola15/claude-self-iterate"
 compatibility: >-
   Requires a Claude Code / agent harness with the Workflow tool and connected
   MCP servers (chrome-devtools, codegraph, codebase-memory). Multi-agent
