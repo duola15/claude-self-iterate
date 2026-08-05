@@ -1,0 +1,8 @@
+# GitHub language detection — 让仓库正确显示为 JS/Shell 项目，而非"纯 Markdown"
+*.js linguist-language=JavaScript
+*.sh linguist-language=Shell
+*.json linguist-language=JSON
+# 文档不参与语言统计
+*.md linguist-documentation
+*.yml linguist-documentation
+LICENSE linguist-documentation

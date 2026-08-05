@@ -6,11 +6,12 @@
 
 [![Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/duola15/claude-self-iterate/ci.yml?label=CI)](https://github.com/duola15/claude-self-iterate/actions)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-ready-black.svg)](#)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![GitHub stars](https://img.shields.io/github/stars/duola15/claude-self-iterate?style=social)](https://github.com/duola15/claude-self-iterate/stargazers)
 
 **给这个项目一个 ⭐** —— 你每星一次，AI 就离"自我迭代产品"更近一步。
+
+> 🛠 **Status**: v0.1 · 活跃维护 · CI 全绿 · **吃自己的狗粮** —— 本仓库的 README/文档正是用这套 workflow 优化的（见 [案例](examples/case-study-github-repo.md)）。
 
 </div>
 
@@ -28,22 +29,27 @@
 
 **Self-Iterate 换一种方式**：让 AI 扮演 **15 个评审角色**（新手/老手/数据审计/合规/性能/视觉/无障碍/SEO/转化/安全/内容…），**真实打开你的每一个页面**，用各自视角找痛点。每个发现都带**证据链**（实际内容 + 源码位置），过三道门才实施，实施后 AI 还**自我改进自己的工作流**。
 
-> 核心洞察：**"逛一遍全站"比"想一遍全站"能发现 10 倍的问题。**
+> 核心洞察：**"逛一遍全站"比"抽查几个页面"能发现成倍的问题——而且全自动。**
 
 ---
 
 ## 🚀 5 分钟跑通
 
 ```bash
+# 0) 克隆仓库
+git clone https://github.com/duola15/claude-self-iterate && cd claude-self-iterate
+
 # 1) 一键安装到 Claude Code
-bash install.sh
+bash install.sh          # Windows 用户请用 Git Bash 或 WSL
 
 # 2) 复制配置，改你的站点
 cp config.example.js config.js
 #    编辑 config.js: siteUrl = "http://localhost:3000", name = "你的站点"
 
-# 3) 本地起 dev server（子 agent 真实抓它）
-npm run dev
+# 3) 在【你的网站项目】里把网站跑在 localhost:3000（不是本仓库）
+cd /path/to/your-website && npm run dev
+#    或临时起一个最小静态站：
+npx serve -p 3000 /path/to/your-website
 
 # 4) 在 Claude Code 里说：
 #    "运行 self-iterate，对 localhost:3000 跑一轮巡检"
@@ -52,6 +58,16 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
            args: { siteUrl: "http://localhost:3000", maxBatches: 1 } })
 ```
 
+> 💡 **配置优先级**：`args`（运行时传参）> `config.js`。相同字段以 `args` 为准。
+> 本仓库是"工作流引擎"不含网站代码；`npm run dev` 跑的是**你自己的网站项目**。
+
+## ✅ 环境要求
+
+- **Node.js ≥ 18**（子 agent 定位源码用）
+- **Claude Code**（或支持 Workflow 工具的 agent harness）
+- **平台**：macOS / Linux 直接 `bash install.sh`；**Windows 用 Git Bash 或 WSL**
+- **MCP（可选但推荐）**：chrome-devtools / codegraph / codebase-memory —— 无则子 agent 退化为 curl/WebFetch
+
 **不想写配置？** 3 个场景模板拿来即用：
 
 | 模板 | 适合 | 用法 |
@@ -59,6 +75,7 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 | 🛒 [ecommerce.js](examples/ecommerce.js) | 电商站（转化/价格/购物车） | `cp examples/ecommerce.js config.js` |
 | 📚 [docs-site.js](examples/docs-site.js) | 文档站（新手/搜索/可读性） | `cp examples/docs-site.js config.js` |
 | 💼 [saas.js](examples/saas.js) | SaaS（注册/定价/留存） | `cp examples/saas.js config.js` |
+| 🐙 [github-repo.js](examples/github-repo.js) | **GitHub 开源项目（25 人群角色）** | `cp examples/github-repo.js config.js` |
 
 ---
 
