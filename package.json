@@ -5,6 +5,9 @@
   "type": "module",
   "keywords": ["claude", "workflow", "self-improvement", "website-optimization", "ai-agent", "review"],
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/duola15/claude-self-iterate"

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/duola15/claude-self-iterate/discussions
+    about: 提问、讨论想法、分享用法（非 bug 或功能请求）

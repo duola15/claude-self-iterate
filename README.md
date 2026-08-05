@@ -190,7 +190,24 @@ claude-self-iterate/
 - **修引擎**：PR 改 `workflows/self-iterate.js`（保持通用）
 - **加 Skill/MCP 原则**：`TOOLKIT` 补充各阶段
 
-先看 [CONTRIBUTING.md](CONTRIBUTING.md)。
+先看 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [行为准则](CODE_OF_CONDUCT.md)。
+
+## 🗺️ Roadmap
+
+**v0.1（当前）**：核心引擎 · 5 阶段 · 5 场景模板（电商/文档站/SaaS/GitHub 开源）· Dogfooding 案例 · CI 全绿
+
+**v0.2（规划）**
+- 更多场景模板（博客/工具站/移动 App）
+- 角色库扩充 + 社区贡献的评审角色
+- 引擎扩展点（自定义阶段/门禁）
+- 更多 MCP 集成（数据库/API 类）
+
+**v0.3（远期）**
+- 多站点批量巡检
+- 结果可视化报告
+- 定时自迭代（每日自动跑一轮）
+
+欢迎在 [Discussions](https://github.com/duola15/claude-self-iterate/discussions) 讨论方向，或提 [Feature request](https://github.com/duola15/claude-self-iterate/issues/new/choose)。
 
 ---
 
