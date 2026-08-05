@@ -13,7 +13,8 @@ export default {
   siteUrl: "http://localhost:3000",   // 本地 dev server（子 agent 抓此地址）
   workDir: ".",                       // 项目根目录（实施阶段定位源码用）
 
-  // 可选：本轮结果写入的记忆目录（JSON 摘要）。设为 null 跳过。
+  // 规划中：本轮结果写入的记忆目录（JSON 摘要）。当前未落盘，请保留 null。
+  // 结果以 workflow 的返回值形式获得；落盘能力在 v0.2 规划中。
   memoryDir: null,
 
   // ── 评分维度（10 维，可增删）──

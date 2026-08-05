@@ -6,7 +6,7 @@ description: >-
   "self-iterate"、"自动优化我的网站"、"跑一轮巡检"。
 license: Apache-2.0
 metadata:
-  version: "1.0.0"
+  version: "0.1.0"
   source: "https://github.com/duola15/claude-self-iterate"
 compatibility: >-
   Requires a Claude Code / agent harness with the Workflow tool and connected

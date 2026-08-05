@@ -17,6 +17,7 @@ cp "$HERE/workflows/self-iterate.js" "$DEST/workflows/"
 cp "$HERE/config.example.js" "$DEST/"
 cp "$HERE/docs"/*.md "$DEST/docs/"
 cp "$HERE/examples"/*.js "$DEST/examples/" 2>/dev/null || true
+cp "$HERE/examples"/*.md "$DEST/examples/" 2>/dev/null || true
 
 echo "✅ 已安装。接下来："
 echo ""

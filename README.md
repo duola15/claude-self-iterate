@@ -156,7 +156,7 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 - **⛩️ 三道门防自嗨**：极端词/免责/数据库保护硬门 + 对立角色复核
 - **🧰 ToolKit 全工具**：自动注入 codebase-memory / chrome-devtools 全能力 / puppeteer / karpathy / systematic-debugging / verification 到对应阶段
 - **🛑 安全红线**：不部署、不 push、不碰数据库文件（除非授权）
-- **🔄 断点续跑**：矩阵记录进度，中断后 resume 不重复
+- **🔄 组合去重**：运行内 `seen` 集合避免重复查同一页面（跨运行断点续跑在规划中）
 - **📦 配置驱动**：角色/页面池/维度/铁则全部可配，3 个场景模板开箱即用
 
 ---

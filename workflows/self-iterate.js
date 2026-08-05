@@ -241,12 +241,12 @@ function buildAllCombos(done) {
       if (role.scope.includes('all') || role.scope.includes(cat)) add(role.key, page.id)
     }
   }
+  const inspectRoles = roles.filter(r => !r.judge)
   for (const mt of modelTiers) {
     for (let i = 0; i < mt.n; i++) {
-      add(roles[i % roles.filter(r => !r.judge).length].key, `model-${mt.tier}-${i}`)
+      add(inspectRoles[i % inspectRoles.length].key, `model-${mt.tier}-${i}`)
     }
   }
-  const inspectRoles = roles.filter(r => !r.judge)
   for (let i = 0; i < pageLongtail.length; i++) {
     add(inspectRoles[i % inspectRoles.length].key, pageLongtail[i].id)
   }
@@ -261,7 +261,7 @@ let done = []
 const findings = []
 const allCombos = buildAllCombos(done).combos
 const totalCombos = allCombos.length
-const ROUND_LIMIT = cfg.maxBatches || Math.ceil(totalCombos / 7)
+const ROUND_LIMIT = cfg.maxBatches ?? Math.ceil(totalCombos / 7)
 const BATCH_SIZE = 7
 let cursor = 0
 let batchNo = 0
