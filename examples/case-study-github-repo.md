@@ -3,7 +3,7 @@
 > **这是 `claude-self-iterate` 的第一个真实案例** —— 我们用这套 workflow 优化了这个仓库自己。
 > 配置见 [examples/github-repo.js](github-repo.js)：角色 = 会访问 GitHub 的 25 种人群。
 
-## 一、为什么"套中套"
+## 一、为什么 Dogfooding（吃自己的狗粮）
 
 `self-iterate` 的价值主张是"让 Claude 用多角色真实逛你的站点，找痛点→评审→实施→自我改进"。
 那最诚实的验证方式是什么？**用它逛它自己的 GitHub 仓库。**
