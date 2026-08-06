@@ -1,4 +1,6 @@
-// 文档站场景配置 —— 特点：新手能看懂/搜索/可读性 是核心
+// 文档站场景配置 —— 经 Workflow args.config 传入（引擎只读 args，不读 config.js）
+// 特点：新手能看懂/搜索/可读性 是核心
+// ⚠️ 本模板只含场景专属角色（+ 引擎自动补齐的决裁），不含通用巡检角色；完整矩阵请从 config.example.js 复制
 export default {
   name: "我的文档站",
   siteUrl: "http://localhost:3000",

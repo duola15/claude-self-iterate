@@ -1,5 +1,7 @@
-// 电商站场景配置 —— 复制为 config.js 使用，或经 args.config 覆盖
+// 电商站场景配置 —— 经 Workflow args.config 传入（引擎只读 args，不读 config.js）
 // 特点：转化/价格/购物车/移动端 是核心
+// ⚠️ 本模板只含场景专属角色（运行时 + 引擎自动补齐的决裁角色），不含 config.example.js 的 11 个通用巡检角色。
+//    若需完整角色矩阵（15+ 角色），请从 config.example.js 的 roles 复制。
 export default {
   name: "我的电商站",
   siteUrl: "http://localhost:3000",

@@ -34,7 +34,7 @@ export default {
     { k: "U", name: "体验", q: "视觉/可用性/一致性/无障碍", veto: false },
     { k: "G", name: "增长", q: "SEO/分发/传播承接", veto: false },
   ],
-  passScore: 25, // 总分 ≥ passScore 才放行（10 维满分 = passScore×2）
+  passScore: 25, // 总分 ≥ passScore 才放行（加权后总分，满分因角色专属加权而异，非固定 50）
 
   // ── 极端词铁则（扫描 problem+plan 文本，命中即 kill）──
   extremeWords: [

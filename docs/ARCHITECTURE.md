@@ -56,6 +56,20 @@
 - **implement**（实施）：codegraph、codebase-memory trace_path、karpathy、systematic-debugging、verification-before-completion、simplify
 - **improve**（自我改进）：advisor-orchestrator-worker 三层
 
+## 运行时原语（Workflow 工具 API）
+
+引擎运行在 Claude Code 的 Workflow 工具上，脚本体内可用以下编排原语：
+
+| 原语 | 作用 | 引擎里的用途 |
+|---|---|---|
+| `phase(title)` | 标记阶段（进度分组显示） | 五阶段：巡检/三道门评审/实施/自我改进/攒批build |
+| `agent(prompt, opts)` | 派一个子 agent（可 `schema` 强制结构化输出）| 巡检角色 / 决裁 / 实施 / 自我改进 |
+| `parallel(thunks)` | 并行跑一批任务（**屏障**，等全部）| 每批 7 个巡检 agent；每条的 4 个决裁 agent |
+| `pipeline(items, stage1, ...)` | 每个 item 依次过各阶段（无屏障，各走各的）| 每条过门 finding 的决裁流水线 |
+| `log(msg)` | 输出进度信息 | 批次进度 / 通过驳回 / 自我改进建议 |
+
+引擎不直接 `import`/`require` 任何包（零依赖），纯用这些原语 + Node 内置 + 子 agent 的工具（经 ToolSearch 访问 MCP）。
+
 ## 安全设计
 
 - **不部署**：build 只本地验证，默认不 push/commit

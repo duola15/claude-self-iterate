@@ -85,14 +85,14 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 - **平台**：macOS / Linux 直接 `bash install.sh`；**Windows 用 Git Bash 或 WSL**
 - **MCP（可选但推荐）**：chrome-devtools / codegraph / codebase-memory —— 无则子 agent 退化为 curl/WebFetch
 
-**不想写配置？** 3 个场景模板拿来即用：
+**不想写配置？** 场景模板拿来即用（把模板文件内容经 `Workflow.args.config` 传入；引擎不读 config.js）：
 
 | 模板 | 适合 | 用法 |
 |---|---|---|
-| 🛒 [ecommerce.js](examples/ecommerce.js) | 电商站（转化/价格/购物车） | `cp examples/ecommerce.js config.js` |
-| 📚 [docs-site.js](examples/docs-site.js) | 文档站（新手/搜索/可读性） | `cp examples/docs-site.js config.js` |
-| 💼 [saas.js](examples/saas.js) | SaaS（注册/定价/留存） | `cp examples/saas.js config.js` |
-| 🐙 [github-repo.js](examples/github-repo.js) | **GitHub 开源项目（25 人群角色）** | `cp examples/github-repo.js config.js` |
+| 🛒 [ecommerce.js](examples/ecommerce.js) | 电商站（转化/价格/购物车） | `args.config = require('./examples/ecommerce.js').default` |
+| 📚 [docs-site.js](examples/docs-site.js) | 文档站（新手/搜索/可读性） | 同上 |
+| 💼 [saas.js](examples/saas.js) | SaaS（注册/定价/留存） | 同上 |
+| 🐙 [github-repo.js](examples/github-repo.js) | **GitHub 开源项目（25 人群角色 + 案例）** | 同上 |
 
 ---
 
@@ -150,7 +150,18 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 |---|---|
 | **铁则门** | 极端词（"最强/最好/No.1"）、缺免责声明、动数据库文件 → 直接 kill |
 | **评分门** | 10 维专属加权 + 一票否决（数据可信<4 / 风险<4 / 可维护<3 → 否决） |
-| **决裁门** | 维护者/目标对齐/ROI 审计 3 个对立角色复核，≥3 票通过才放行 |
+| **决裁门** | 维护者/目标对齐/ROI 审计 3 个对立角色复核，≥3 票通过才放行（final 角色可绝对否决）|
+
+### 📖 快速术语表
+
+| 术语 | 含义 |
+|---|---|
+| **10 维评分** | 每条发现打 10 个维度分：D 决策转化 / C 内容 / M 变现 / T 数据可信 / R 零风险 / S 单人可维护 / F 目标一致 / P 性能 / U 体验 / G 增长。`s_T=5` 表示"数据可信"打 5 分（0-5）|
+| **T1 / T2 / T3** | 详情页分层抽样：T1 最核心旗舰页（抽最多）→ T2 普通页 → T3 冷门/归档页（抽最少），避免全量爬 |
+| **6 层画像** | 每个角色的定义：身份 / 视角 / 硬清单 / KPI / 原则锚点 / 误报防御 |
+| **一票否决** | 数据可信/零风险/单人可维护/目标一致 四维任一低于阈值 → 该提案直接否决 |
+| **P0 / P1 / P2** | 严重度：P0 全站/阻断 / P1 影响任务或体验 / P2 次要 |
+| **final 角色** | 最高裁判（如宪法执法官），投"驳回"即绝对否决，不可被多数翻盘 |
 
 ---
 
@@ -191,7 +202,9 @@ claude-self-iterate/
 │   ├── sample-report.md    # 示例报告（跑一轮后你看到什么）
 │   ├── ecommerce.js        # 电商站模板
 │   ├── docs-site.js        # 文档站模板
-│   └── saas.js             # SaaS 模板
+│   ├── saas.js             # SaaS 模板
+│   ├── github-repo.js      # GitHub 开源项目模板（25 人群角色）
+│   └── case-study-github-repo.md  # Dogfooding 案例（用它优化它自己）
 ├── schema.js               # 4 个结构化输出 Schema
 ├── test/                   # 配置有效性测试（node --test）
 ├── docs/                   # ARCHITECTURE / ROLE-SPEC / SELF-IMPROVE / CONFIG-GUIDE

@@ -1,4 +1,6 @@
-// SaaS 场景配置 —— 特点：注册转化/定价/留存 是核心
+// SaaS 场景配置 —— 经 Workflow args.config 传入（引擎只读 args，不读 config.js）
+// 特点：注册转化/定价/留存 是核心
+// ⚠️ 本模板只含场景专属角色（+ 引擎自动补齐的决裁），不含通用巡检角色；完整矩阵请从 config.example.js 复制
 export default {
   name: "我的 SaaS",
   siteUrl: "http://localhost:3000",
