@@ -4,6 +4,10 @@
 
 ### 让 Claude 自己优化你的网站——像一支 15 人产品团队，每天帮你巡检、评审、改版。直到改无可改，自动停。
 
+> **Self-iterating website optimization workflow for Claude Code** — Claude crawls your site as reviewer roles, passes a three-gate review, applies minimal fixes, and self-improves its own workflow until the whole matrix is done.
+
+> 🇬🇧 [English](README.en.md) · 🇨🇳 中文
+
 [![Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/duola15/claude-self-iterate/ci.yml?label=CI)](https://github.com/duola15/claude-self-iterate/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
@@ -42,9 +46,16 @@ git clone https://github.com/duola15/claude-self-iterate && cd claude-self-itera
 # 1) 一键安装到 Claude Code
 bash install.sh          # Windows 用户请用 Git Bash 或 WSL
 
-# 2) 复制配置，改你的站点
-cp config.example.js config.js
-#    编辑 config.js: siteUrl = "http://localhost:3000", name = "你的站点"
+# 2) 参考 config.example.js 的结构，通过 Workflow args 传配置（引擎只读 args，不读 config.js）
+#    最少只需 siteUrl；自定义角色/页面池/维度用 args.config 覆盖：
+Workflow({
+  scriptPath: "workflows/self-iterate.js",
+  args: {
+    siteUrl: "http://localhost:3000",   // 必填
+    maxBatches: 1,                      // 可选：先跑 1 批看质量
+    config: { name: "你的站点", roles: [...], pageCore: [...] },  // 可选：覆盖默认
+  },
+})
 
 # 3) 在【你的网站项目】里把网站跑在 localhost:3000（不是本仓库）
 cd /path/to/your-website && npm run dev
@@ -107,7 +118,7 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 
 ## ⚙️ 工作原理（五阶段）
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  ① 巡检  15+ 角色 × 页面矩阵                                 │
 │     每个角色真实抓页（curl + chrome-devtools），带证据链找痛点  │
@@ -163,7 +174,7 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 
 ## 📦 目录结构
 
-```
+```text
 claude-self-iterate/
 ├── SKILL.md                # 标准 skill 外壳（agentskills.io）
 ├── install.sh              # 一键安装到 Claude Code
@@ -223,7 +234,27 @@ Claude Code + 已连接 MCP（chrome-devtools/codegraph/codebase-memory）。无
 矩阵跑完自动停；`args.maxBatches` 限制批次（先跑 1 批看质量）。详情页按 T1/T2/T3 分层抽样，不全跑。
 
 **Q：会不会泄露我的站内数据？**
-不会。只读页面 HTML + 本地源码定位；你的 `config.js` 在 `.gitignore` 不提交。
+不会。只读页面 HTML + 本地源码定位；你的配置不进代码库。
+
+**Q：`Workflow({...})` 是什么？从哪来？**
+`Workflow` 是 Claude Code 的内置工具（输入 `/workflows` 或直接调用），用于编排多 agent。本仓库的引擎 `workflows/self-iterate.js` 就是给它运行的。
+
+**Q：严重度 P0/P1/P2 什么意思？**
+- **P0**：全站性 / 阻断使用 / 信任致命（如 README 步骤跑不通）
+- **P1**：影响核心任务或体验（如关键路径卡住）
+- **P2**：次要 / 打磨项（如文档措辞）
+
+**Q：没配 MCP 能跑吗？怎么确认？**
+能。无 MCP 时子 agent 退化为 curl/WebFetch，功能略降但不阻断。确认已连接：Claude Code 里输入 `/mcp` 查看。
+
+**Q：常见报错对照**
+
+| 报错 | 原因 | 解决 |
+|---|---|---|
+| `bash: install.sh: command not found` | Windows 无 bash | 用 Git Bash 或 WSL 执行 |
+| `Missing script: "dev"` | 在本仓库跑 `npm run dev` | 本仓库不含网站代码，去你的网站项目跑 |
+| `curl: Failed to connect to localhost:3000` | dev server 没起或端口不符 | 确认 `siteUrl` 与 dev server 端口一致 |
+| 跑完无输出 | `maxBatches: 0` | `maxBatches` 用 `null` 表示不限制，`0` 表示不跑 |
 
 ---
 

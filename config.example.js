@@ -1,7 +1,10 @@
 // ═══════════════════════════════════════════════════════════
-// config.example.js — 通用配置模板
-// 复制为 config.js 并自定义你的站点；或通过 workflow args 传入：
-//   Workflow({ scriptPath, args: { siteUrl, maxBatches, config: { name, roles, pageCore, ... } } })
+// config.example.js — 配置参考模板
+// 引擎（workflows/self-iterate.js）只读 Workflow args 传入的配置，
+// 不读取 config.js 文件（Workflow 环境无文件系统）。本文件是结构参考：
+//   Workflow({ scriptPath, args: { siteUrl, maxBatches,
+//              config: { name, roles, pageCore, ... } } })
+// 各 examples/*.js 是可直接整段作为 config 传入的场景模板。
 //
 // ⚠️ 隐私提醒：本文件可能包含你的站点策略（铁则/角色权重）。若要公开分享，
 //    请用占位内容（像本文件这样），不要提交你的真实配置。
