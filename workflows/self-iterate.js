@@ -305,14 +305,18 @@ const judged = await pipeline(scored, f =>
       { label: `决裁:${jr.name}`, phase: '三道门评审', schema: VERDICT_SCHEMA }
     )
   })).then(revs => {
+    // final:true 角色（如宪法执法官）投"驳回" → 绝对否决，不可被多数票翻盘
+    const finalIdx = JUDGE_KEYS.findIndex(k => (roles.find(r => r.key === k) || {}).final)
+    const finalVerdict = (finalIdx >= 0 && revs[finalIdx]) ? revs[finalIdx].verdict : '通过'
     const rev = revs.filter(Boolean)
     const passes = rev.filter(r => r.verdict === '通过').length
     const avg = rev.reduce((s, r) => s + (r.score || 0), 0) / Math.max(1, rev.length)
-    return { passes, avg, reasons: rev.map(r => r.reason || '').join('; ') }
+    return { passes, avg, finalVerdict, reasons: rev.map(r => r.reason || '').join('; ') }
   })
 )
-const approved = scored.filter((_, i) => (judged[i] || { passes: 0 }).passes >= 3 && (judged[i] || { avg: 0 }).avg >= 3)
-const rejected = scored.filter((_, i) => !((judged[i] || { passes: 0 }).passes >= 3 && (judged[i] || { avg: 0 }).avg >= 3))
+const isApproved = (j) => (j || { finalVerdict: '通过' }).finalVerdict !== '驳回' && (j || { passes: 0 }).passes >= 3 && (j || { avg: 0 }).avg >= 3
+const approved = scored.filter((_, i) => isApproved(judged[i]))
+const rejected = scored.filter((_, i) => !isApproved(judged[i]))
 log(`✅ 通过三道门 ${approved.length} 条，驳回 ${rejected.length} 条`)
 
 phase('实施')

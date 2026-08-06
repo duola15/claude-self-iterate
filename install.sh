@@ -21,9 +21,10 @@ cp "$HERE/examples"/*.md "$DEST/examples/" 2>/dev/null || true
 
 echo "✅ 已安装。接下来："
 echo ""
-echo "  1) 复制配置: cp $DEST/config.example.js $DEST/config.js   # 改 siteUrl/name"
-echo "  2) 本地起 dev server（端口与 config.siteUrl 一致）"
+echo "  1) 参考 $DEST/config.example.js 的结构，通过 Workflow args 传配置（引擎只读 args，不读 config.js）："
+echo "     Workflow({ scriptPath: \"$DEST/workflows/self-iterate.js\","
+echo "               args: { siteUrl: \"http://localhost:3000\", maxBatches: 1 } })"
+echo "  2) 本地起 dev server（端口与 siteUrl 一致）"
 echo "  3) 在 Claude Code 里说: 运行 self-iterate，对 localhost:3000 跑一轮巡检"
-echo "     或: Workflow({ scriptPath: \"$DEST/workflows/self-iterate.js\", args: { maxBatches: 1 } })"
 echo ""
 echo "📖 文档: $DEST/docs/ · 场景模板: $DEST/examples/ (ecommerce / docs-site / saas)"

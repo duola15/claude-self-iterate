@@ -27,5 +27,5 @@ jobs:
           node --check config.example.js
           for f in examples/*.js; do node --check "$f"; done
 
-      - name: 配置有效性测试
-        run: node --test test/
+      - name: 配置有效性 + 核心逻辑测试
+        run: node --test test/*.test.js

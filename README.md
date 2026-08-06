@@ -35,6 +35,12 @@
 
 > 核心洞察：**"逛一遍全站"比"抽查几个页面"能发现成倍的问题——而且全自动。**
 
+### 👥 谁适合用
+
+- **开发者 / 开源维护者**：用 Claude Code 维护网站或仓库，想让 AI 系统化找问题（这是主要受众）
+- **单人团队 / 独立开发者**：没有 QA 团队，让 AI 当你的"15 人产品团队"
+- **非技术人员**：请让团队里会用 Claude Code 的开发者代跑（上手需要终端 + Node ≥ 18 + Claude Code）
+
 ---
 
 ## 🚀 5 分钟跑通
@@ -190,6 +196,7 @@ claude-self-iterate/
 ├── test/                   # 配置有效性测试（node --test）
 ├── docs/                   # ARCHITECTURE / ROLE-SPEC / SELF-IMPROVE / CONFIG-GUIDE
 ├── .github/                # CI + issue/PR 模板
+├── CHANGELOG.md            # 版本变更记录
 └── LICENSE                 # Apache-2.0
 ```
 
