@@ -185,6 +185,9 @@ Workflow({ scriptPath: "workflows/self-iterate.js",
 - **🧰 ToolKit 全工具**：自动注入 codebase-memory / chrome-devtools 全能力 / puppeteer / karpathy / systematic-debugging / verification 到对应阶段
 - **🛑 安全红线**：不部署、不 push、不碰数据库文件（除非授权）
 - **🔄 组合去重**：运行内 `seen` 集合避免重复查同一页面（跨运行断点续跑在规划中）
+- **🛡️ 防提示注入**：铁则门 + 巡检 prompt 双重检测页面内嵌的"忽略之前指令"类外部指令（借鉴 [ruflo](https://github.com/ruvnet/ruflo) AIDefence）
+- **🎭 角色库**：`roles/` 目录社区贡献入口，每个角色一个文件（借鉴 ruflo 插件市场）
+- **♾️ 跨轮次学习**：`LEARNINGS.md` 记录自我改进轨迹，主 agent 下次运行前应用（借鉴 ruflo 自学习）
 - **📦 配置驱动**：角色/页面池/维度/铁则全部可配，3 个场景模板开箱即用
 
 ---
@@ -206,8 +209,11 @@ claude-self-iterate/
 │   ├── github-repo.js      # GitHub 开源项目模板（25 人群角色）
 │   └── case-study-github-repo.md  # Dogfooding 案例（用它优化它自己）
 ├── schema.js               # 4 个结构化输出 Schema
-├── test/                   # 配置有效性测试（node --test）
-├── docs/                   # ARCHITECTURE / ROLE-SPEC / SELF-IMPROVE / CONFIG-GUIDE
+├── roles/                  # 角色库（社区贡献入口，每个角色一个文件）
+├── scripts/merge-roles.js  # 角色库合并工具
+├── test/                   # 配置 + 核心逻辑测试（node --test）
+├── docs/                   # ARCHITECTURE / ROLE-SPEC / SELF-IMPROVE / CONFIG-GUIDE / LEARNING-LOOP
+├── LEARNINGS.md            # 自我改进轨迹（跨轮次学习）
 ├── .github/                # CI + issue/PR 模板
 ├── CHANGELOG.md            # 版本变更记录
 └── LICENSE                 # Apache-2.0
